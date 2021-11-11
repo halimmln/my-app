@@ -1,24 +1,39 @@
 import logo from './logo.svg';
 import './App.css';
-
+import App1 from './testing';
+import { browserHistory } from 'react-router';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+  
+} from "react-router-dom";
+import UserList from './UserList';
+import  Routes  from './Routes';
+import Navigation from './components/Navbar';
+import { useState } from 'react';
+import Reservation from './reservation';
 function App() {
+  const [data, setData] = useState();
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navigation />
+      <Routes />
     </div>
+//     <Router history={browserHistory}>
+// <Switch>
+// <Route path ="/user"> 
+// <UserList /></Route>
+// <Route path ="/"> 
+// {/* <App1 /> */}
+// <Reservation />
+// </Route>
+// <Route path="/:id"> 
+// {/* <App1 /> */}
+// <Reservation/>
+// </Route>
+// </Switch>
+//     </Router>
   );
 }
 
