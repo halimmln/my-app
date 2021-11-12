@@ -7,6 +7,7 @@ import UserList from './components/UserList/UserList';
 import Home from './Home/Home';
 import history from './history';
 import AddUser from './components/AddUser/AddUser';
+import UserRegister from './components/AddUser/UserRegisterForm';
 
 export default class Routes extends Component {
   render() {
@@ -19,6 +20,7 @@ export default class Routes extends Component {
           <Route path="/userlist" component={UserList} />
           <Route exact path="/user" component={AddUser} />
           <Route path="/user/:id" component={AddUser} />
+          <Route path="/userForm" component ={UserRegister} />
         </Switch>
       </Router>
     );

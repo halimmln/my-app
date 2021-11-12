@@ -16,6 +16,7 @@ const Navigation = (props) => {
           <Nav.Link href="/Contact">Contact</Nav.Link>
           <Nav.Link href="/userList">UserList</Nav.Link>
           <Nav.Link href="/user">AddUser</Nav.Link>
+          <Nav.Link href="/userForm">Formik form</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
