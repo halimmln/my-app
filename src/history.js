@@ -1,3 +1,5 @@
-import { createBrowserHistory as history} from 'history';
+import { createBrowserHistory } from 'history';
+// initialize history object for the application
+const history = createBrowserHistory({ basename: '/' });
 
-export default history();
+export default history;
