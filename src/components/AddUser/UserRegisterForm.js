@@ -16,7 +16,7 @@ import {
   
 const UserRegister  = ()=> {
   const { id } = useParams();
-  alert(id);
+ 
   const LocalStorage1 =new LocalStorage();
   const values = LocalStorage1.getData('store');
   const history = useHistory();
@@ -44,6 +44,8 @@ const UserRegister  = ()=> {
    
   }
   }
+  const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
 
     const validationSchema = Yup.object().shape({
         fname: Yup.string()
@@ -55,14 +57,7 @@ const UserRegister  = ()=> {
         email: Yup.string()
           .email('Invalid email address')
           .required('Required'),
-        password: Yup.string()
-          .required('Required')
-          .min(8 ,"Must be 8 characters or more")
-          .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field "),
-        confirmPassword: Yup.string()
-          .required('Required')
-          .oneOf([Yup.ref('password'), null], 'Passwords must match'),
-          check:Yup.boolean().required('Required').oneOf([true],"must be Check"),
+        phone:Yup.string().required().matches(phoneRegExp,"Enter valid phone number"),
       })
 const UserForm = useFormik({
     initialValues: initialState,
@@ -85,7 +80,7 @@ const UserForm = useFormik({
              
               
               values[index].fname = values1.fname;
-              values[index].lname =values1.lname
+              values[index].lname = values1.lname
               values[index].email = values1.email
               values[index].phone = values1.phone;
             
@@ -158,51 +153,20 @@ return (
             <Grid item xs={12} sm={6}>
               <TextField
                 required
-                id="password"
-                name="password"
-                label="Password"
-                type="password"
+                id="phone"
+                name="phone"
+                label="Phone Number"
+                type="number"
                 fullWidth
                 margin="dense"
                 onChange={UserForm.handleChange}
-                value={UserForm.values.password}
+                value={UserForm.values.phone}
               />
               <Typography variant="inherit" color="textSecondary">
-              {UserForm.errors.password ? <div>{UserForm.errors.password}</div> : null}
+              {UserForm.errors.phone ? <div>{UserForm.errors.phone}</div> : null}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="confirmPassword"
-                name="confirmPassword"
-                label="Confirm Password"
-                type="password"
-                fullWidth
-                margin="dense"
-                onChange={UserForm.handleChange}
-                value={UserForm.values.confirmpassword}
-              />
-              <Typography variant="inherit" color="textSecondary">
-              {UserForm.errors.confirmPassword ? <div>{UserForm.errors.confirmPassword}</div> : null}
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox  name='check'  />}
-                checked = {UserForm.values.check }
-                onChange={UserForm.handleChange}
-                label={
-                  <Typography color={true ? 'error' : 'inherit'}>
-                    I have read and agree to the Terms *
-                  </Typography>
-                }
-              />
-              <br />
-              <Typography variant="inherit" color="textSecondary">
-              {UserForm.errors.check ? <div>{UserForm.errors.check}</div> : null}
-              </Typography>
-            </Grid>
+            
           </Grid>
 
           <Box mt={3}>
@@ -212,7 +176,7 @@ return (
               onClick={UserForm.handleSubmit}
                
             >
-              Register
+              {UserForm.values.id ? 'Update':'Add User'}
             </Button>
           </Box>
         </Box>
