@@ -27,7 +27,7 @@ const UserList = () => {
   const handleEditSubmit = (id) => {
     
     console.log(id);
-    history.push(`/user/${id}`);
+    history.push(`/userForm/${id}`);
   };
   return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: 30 }}>
@@ -51,7 +51,7 @@ const UserList = () => {
                   <td>{index}</td>
                   <td key={data.fname}>{data.fname}</td>
                   <td key={data.lname}>{data.lname}</td>
-                  <td key={data.emailId}>{data.emailId}</td>
+                  <td key={data.email}>{data.email}</td>
                   <td key={data.phone}>{data.phone}</td>
                   <td>
                     <input

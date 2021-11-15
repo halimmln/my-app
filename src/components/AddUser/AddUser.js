@@ -14,7 +14,7 @@ const AddUser = () => {
     id:null,
     fname:'',
     lname:'',
-    emailId:'',
+    email:'',
     phone:''
   }
   if((id != undefined || id != null ) && values.length ){
@@ -24,7 +24,7 @@ const AddUser = () => {
       id:id,
       fname:values[index].fname,
       lname:values[index].lname,
-      emailId:values[index].emailId,
+      email:values[index].email,
       phone:values[index].phone
     }
    
@@ -35,7 +35,7 @@ const AddUser = () => {
   const [fname, setFname] = React.useState();
 
   const [lname, setLname] = React.useState();
-  const [emailId, setEmail] = React.useState();
+  const [email, setEmail] = React.useState();
   const [phone, setPhone] =React.useState();
     //setValues(LocalStorage1.getData('store'));
    
@@ -58,7 +58,7 @@ const AddUser = () => {
           
           values[index].fname = user.fname;
           values[index].lname =user.lname
-          values[index].emailId = user.emailId
+          values[index].email = user.email
           values[index].phone = user.phone;
         
         }
@@ -115,8 +115,8 @@ const AddUser = () => {
                 <Form.Label className="label">Email Address</Form.Label>
                 <Form.Control
                   type="email"
-                  name="emailId"
-                  value={user.emailId}
+                  name="email"
+                  value={user.email}
                   onChange={handleInputChange}
                   required
                 />

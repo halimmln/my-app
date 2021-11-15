@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useHistory, useParams } from 'react-router-dom';
+import LocalStorage from '../../services/localStorageService';
 import {
     Paper,
     Box,
@@ -11,15 +13,38 @@ import {
     Checkbox,
     Button
   } from '@material-ui/core';
+  
 const UserRegister  = ()=> {
-    const validate = (values) =>{
-
-        const errors = {};
-      //  errors.email = 'Invalid email address';
-
-     
-        return errors;
+  const { id } = useParams();
+  alert(id);
+  const LocalStorage1 =new LocalStorage();
+  const values = LocalStorage1.getData('store');
+  const history = useHistory();
+  let initialState= {
+   
+    id:null,
+    fname:'',
+    lname:'',
+    email:'',
+    password:'',
+    confirmPassword:'',
+    phone:0,
+    check:true
+  }
+  if((id != undefined || id != null ) && values.length ){
+    let index = values.findIndex((i) => i.id == id);
+    if(index != -1 ){
+      initialState ={
+      id:id,
+      fname:values[index].fname,
+      lname:values[index].lname,
+      email:values[index].email,
+      phone:values[index].phone
     }
+   
+  }
+  }
+
     const validationSchema = Yup.object().shape({
         fname: Yup.string()
           .max(15, 'Must be 15 characters or less')
@@ -39,56 +64,41 @@ const UserRegister  = ()=> {
           .oneOf([Yup.ref('password'), null], 'Passwords must match'),
           check:Yup.boolean().required('Required').oneOf([true],"must be Check"),
       })
-const userForm = useFormik({
-    initialValues:{
-        id:null,
-        fname:'',
-        lname:'',
-        email:'',
-        password:'',
-        confirmPassword:'',
-        phone:0,
-        check:true
-    },
+const UserForm = useFormik({
+    initialValues: initialState,
     validationSchema ,
-    onSubmit: values => {
-        alert(JSON.stringify(values, null, 2));
+    onSubmit: values1 => {
+        //alert(JSON.stringify(values1, null, 2));
+        
+ 
+        if (values1.id == undefined || values1.id == null) {
+          if (localStorage.getItem('store') == null) {
+            values1.id = 1;
+          } else {
+            values1.id = values.length + 1;
+          }
+          values.push(values1);
+        } else {
+          if (values1.id != undefined || values1.id == null) {
+            let index = values.findIndex((i) => i.id == values1.id);
+            if(index != -1 ){
+             
+              
+              values[index].fname = values1.fname;
+              values[index].lname =values1.lname
+              values[index].email = values1.email
+              values[index].phone = values1.phone;
+            
+            }
+          
+          }
+        }
+        LocalStorage1.setData('store',values);
+        history.push('/userList');
       },
 
 });
 
-// return (
-//     <form onSubmit={userForm.handleSubmit}>
-//       <label htmlFor="fname">First Name</label>
-//       <input
-//         id="fname"
-//         name="fname"
-//         type="text"
-//         onChange={userForm.handleChange}
-//         value={userForm.values.fname}
-//       />
-
-//       <label htmlFor="lname">Last Name</label>
-//       <input
-//         id="lname"
-//         name="lname"
-//         type="text"
-//         onChange={userForm.handleChange}
-//         value={userForm.values.lname}
-//       />
-
-//       <label htmlFor="email">Email Address</label>
-//       <input
-//         id="email"
-//         name="email"
-//         type="email"
-//         onChange={userForm.handleChange}
-//         value={userForm.values.email}
-//       />
-
-//       <button type="submit">Submit</button>
-//     </form>
-//   );
 return (
     <Fragment >
       
@@ -107,12 +117,12 @@ return (
                 label="First Name"
                 fullWidth
                 margin="dense"
-                onChange={userForm.handleChange}
-                value={userForm.values.fname}
+                onChange={UserForm.handleChange}
+                value={UserForm.values.fname}
                
               />
               <Typography variant="inherit" color="textSecondary">
-               {userForm.errors.fname ? <div>{userForm.errors.fname}</div> : null}
+               {UserForm.errors.fname ? <div>{UserForm.errors.fname}</div> : null}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -123,11 +133,11 @@ return (
                 label="Last Name"
                 fullWidth
                 margin="dense"
-                onChange={userForm.handleChange}
-                value={userForm.values.lname}
+                onChange={UserForm.handleChange}
+                value={UserForm.values.lname}
               />
               <Typography variant="inherit" color="textSecondary">
-              {userForm.errors.lname ? <div>{userForm.errors.lname}</div> : null}
+              {UserForm.errors.lname ? <div>{UserForm.errors.lname}</div> : null}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -138,11 +148,11 @@ return (
                 label="Email"
                 fullWidth
                 margin="dense"
-                onChange={userForm.handleChange}
-                value={userForm.values.email}
+                onChange={UserForm.handleChange}
+                value={UserForm.values.email}
               />
               <Typography variant="inherit" color="textSecondary">
-              {userForm.errors.email ? <div>{userForm.errors.email}</div> : null}
+              {UserForm.errors.email ? <div>{UserForm.errors.email}</div> : null}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -154,11 +164,11 @@ return (
                 type="password"
                 fullWidth
                 margin="dense"
-                onChange={userForm.handleChange}
-                value={userForm.values.password}
+                onChange={UserForm.handleChange}
+                value={UserForm.values.password}
               />
               <Typography variant="inherit" color="textSecondary">
-              {userForm.errors.password ? <div>{userForm.errors.password}</div> : null}
+              {UserForm.errors.password ? <div>{UserForm.errors.password}</div> : null}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -170,18 +180,18 @@ return (
                 type="password"
                 fullWidth
                 margin="dense"
-                onChange={userForm.handleChange}
-                value={userForm.values.confirmpassword}
+                onChange={UserForm.handleChange}
+                value={UserForm.values.confirmpassword}
               />
               <Typography variant="inherit" color="textSecondary">
-              {userForm.errors.confirmPassword ? <div>{userForm.errors.confirmPassword}</div> : null}
+              {UserForm.errors.confirmPassword ? <div>{UserForm.errors.confirmPassword}</div> : null}
               </Typography>
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox  name='check'  />}
-                checked = {userForm.values.check }
-                onChange={userForm.handleChange}
+                checked = {UserForm.values.check }
+                onChange={UserForm.handleChange}
                 label={
                   <Typography color={true ? 'error' : 'inherit'}>
                     I have read and agree to the Terms *
@@ -190,7 +200,7 @@ return (
               />
               <br />
               <Typography variant="inherit" color="textSecondary">
-              {userForm.errors.check ? <div>{userForm.errors.check}</div> : null}
+              {UserForm.errors.check ? <div>{UserForm.errors.check}</div> : null}
               </Typography>
             </Grid>
           </Grid>
@@ -199,7 +209,7 @@ return (
             <Button
               variant="contained"
               color="primary"
-              onClick={userForm.handleSubmit}
+              onClick={UserForm.handleSubmit}
                
             >
               Register

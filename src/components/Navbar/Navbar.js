@@ -11,10 +11,7 @@ const Navigation = (props) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/About">About</Nav.Link>
-          <Nav.Link href="/Contact">Contact</Nav.Link>
-          <Nav.Link href="/userList">UserList</Nav.Link>
+          <Nav.Link href="/">UserList</Nav.Link>
           <Nav.Link href="/user">AddUser</Nav.Link>
           <Nav.Link href="/userForm">Formik form</Nav.Link>
         </Nav>
